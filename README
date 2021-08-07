@@ -81,13 +81,79 @@ git 의 브랜치에 대하여
 
 8. hotfix를 master에 합병하기 위해서는 master 브랜치에서 hotfix를 merge해야한다. git merge hotfix (master) 가 맞다.
 
-9. 
+8.1. 브랜치 분기방법은 여러가지가 있으니 "https://backlog.com/git-tutorial/kr/stepup/stepup1_4.html" 를 참고하도록 하자
+
+9. iss53 과 master 를 합병할 때 master 는 hotfix 한다고 이미 변경되버렸기 때문에 merge 결과를 별도 커밋으로 만들고 브랜치가 그 커밋을 가리킨다.
+
+10. iss53 이제 쓸데가 없으니 없에던가 알아서 하자.
+ 
+**************************************
+
+git 충돌
+
+알록달록한 영어가 아주 많이 뜬다.
+영포자와 초보에게는 아주 무서운 일이 아닐수가 없다.
+본인도 충돌 나서 이걸 쓰고 있지 않은가...
+
+#충돌이 나는 경우
+Merge 하는 두 브랜치에서 같은 파일의 한 부분을 동시수정하고 Merge하면
+git 은 Merge 하지 못한다.
+
+$ git merge iss53
+Auto-merging index.html
+CONFLICT (content): Merge conflict in index.html
+Automatic merge failed; fix conflicts and then commit the result.
+
+가 뜬다. 
+status 로 어떤 파일이 박살이 났는지 볼 수 있을텐데
+git은 아래와 같은 형식으로 사용자에게 알린다.
+
+<<<<<<< HEAD:index.html
+<div id="footer">contact : email.support@github.com</div>
+=======
+<div id="footer">
+ please contact us at support@github.com
+</div>
+>>>>>>> iss53:index.html
+
+이 경우 ======= 위의 것은 현재 HEAD 브랜치의 내용
+아래쪽은 iss53 브랜치의 내용
+
+요컨데 git은 어떤 브랜치를 중요시 해야할지 몰라서 오류를 띄운 것일거다.
+
+위 아래 중 하나를 골라서 수정해줘야 한다.
+
+만약 해결이 잘 되었다면 git은 알아서 add를 해줄것이다.
+
+commit 해라. 커밋 메시지가 살작 다를 것이다.
 
 **************************************
 
+git 이력 되돌리기 
 
+1. Reset
+2. Revert
 
+두 가지가 대표적이다.
 
+#Reset 
+돌아가려는 커밋으로 재설정되고 커밋 이후의 이력이 없어짐.
+시간이동과 비슷함..
+
+.옵션
+
+--hard : 돌아가려는 이력 이후의 모든 내용이 삭제된다.
+
+--soft : 돌아가려는 이력으로 가지만 모든 게 스테이징 되있고, 다시 커밋할 수 있는 상태가 되어있음.
+
+--mixed : 이력은 되돌려지고, add를 다시 해야함, 물론 commit 도
+
+#Revert
+돌아가려는 커밋으로 돌아가지만. 과거로 되돌리겠다는 기록이 남는다.
+
+커밋을 남겨야 하는, 같은 branch 를 공유하는 프로젝트에서 Revert를 쓴다.
+
+**************************************
 
 git 명령어 
 
@@ -111,4 +177,4 @@ git 명령어
 
 .diff : 변경사항 볼 수 있음.
 
-.
+***************************************
